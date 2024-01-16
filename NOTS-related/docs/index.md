@@ -74,6 +74,187 @@ First, in order to access NOTS, you will need CRC access and must be connected t
 
 ![somefillertext](https://kb.rice.edu/images/group273/108446/loginDiagram2.png)
 
+#### Logging into the cluster
+
+```
+mkdir .ssh
+cd .ssh
+ssh-keygen
+ssh netid@nots.rice.edu
+```
+
+Upon logging into the cluster, your terminal should read:
+
+#### File Systems in NOTS
+The following figure, provided by the CRC’s NOTS [documentation](https://kb.rice.edu/page.php?id=108237), shows the characteristics of the different file systems in NOTS.
+
+A good directory to start your NOTS work is: scratch 
+
+To use Scratch to run a job you will need to move into the scratch directory and make a directory with your netid:
+
+```
+cd /scratch
+mkdir netid
+cd netid
+```
+
+Why are we using scratch?
+Scratch is a file system designed specifically for lots of jobs going, and writing at same time.
+This filesystem can handle the load for hundreds of users to be doing this work!!
+Nfs filesystem does not perform as well as scratch
+Bash command to see all of the file systems: 
+```
+df -hT
+```
+
+#### Virtual Environments Within NOTS
+– why do we need these? –
+
+Mac:
+Create virtual environment:
+```
+python3 -m venv venv
+activate venv
+source venv/bin/activate
+```
+
+Windows:
+```
+source ./venv_example/
+source ./venv_example/Scripts/
+source ./venv_example/Scripts/activate
+```
+
+
+#### How to Submit Jobs on NOTS Using Own Computer
+To bypass firewall(no VPN): 
+
+```
+ssh netid@gw.crc.rice.edu
+```
+
+**Reminder** Gateway servers have limited capacity. If you upload massive files, do it through VPN
+Connect to NOTS through ssh
+
+```
+sbatch script.py 
+```
+
+To unload all environment variables:
+```
+module purge
+```
+
+#### Different Ways to Run Files (using parallel folding example)
+
+Serial main.py
+    - One argument
+        - Number of vertices
+
+Parallel main.py
+    - Nice example because No input files
+    - Don’t have to worry about multiple input files, indexing them, etc.
+    - Three arguments
+    - Number of vertices
+    - Worker number
+    - Number of workers
+
+Taking the total amount of work
+    - Runs by checkpoint 
+    - Takes remaining work and splits in line 135 across 
+
+#### Scavenger.slurm - Bash notes:
+Slurm script → job script
+Providing instructions on how to do job
+
+**Embarrassing parallel (HPC)**
+
+Problem you can break up into pieces with no required communication between chunks of the jobs
+Can all run in parallel but no synchronization
+Job scales linearly
+    
+**High throughput computing (HTC)**
+
+When you solve the cluster problems with lots and lots of small problems
+    
+Lots of CPUs working at same time, synchronized
+    
+Work time will settle because there’s a minimum time for all serial components added together
+    
+Condor
+    Open science grid
+        
+    Can submit job there ^ and job will run somewhere in the country
+        
+‘module load’ loads module
+
+‘module spider GCC’ gets all the version of GCC that are installed on NOTs
+    
+‘srun’ will run the following thing eg ‘python3 main.py
+
+**Crux of the slurm**
+
+Taking the large job, splitting it across 50 jobs, so they’re all working on mini jobs in a **semi-parallel** way
+
+Enables shorter wait times
+
+#### What is Going on In NOTS?
+
+Ssh into nots
+```
+s queue 
+```
+--> all the jobs that are running
+Priority is jobs that are waiting
+example:
+    bc9…. is name of the server that is running on
+    Room b, rack c9, shelf u19
+    
+Information keys:
+    - r - running
+    - pd - pending
+    - ra47 - netID
+    - TF99_S3_ name of the job
+    
+```
+s info -p scavenge
+```
+
+Scavenge is the space available ~ Tells you what all of the nodes are using
+
+Drain means not running job, taken offline
+
+Resv means reserved (like for classes)
+
+Mix means job is running on the node, but it is not all the way full and has some extra space
+
+Alloc means completely full
+
+Idle means idle
+Depends on what kind of job you’re running
+    Ex. if you want GPU, but servers dont have GPU, it would be idle…
+    Maybe its idle because size, other servers empy, etc. i guess?
+
+#### Run the Job from scratch in NOTS
+
+```
+pwd 
+ls
+cd scratch
+dd netID
+cp -R  /home/netID/parallel_folding_exmample/ .
+ls, cd parallel
+```
+
+```
+sbatch scavenger.slurm 10
+```
+→ submits job!!
+```
+squeue -netID
+squeue -u netID
+```
+ → to see the job is going!
 
 
 
