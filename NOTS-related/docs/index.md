@@ -206,15 +206,17 @@ s queue
 ```
 --> all the jobs that are running
 Priority is jobs that are waiting
+
 example:
     bc9…. is name of the server that is running on
     Room b, rack c9, shelf u19
     
 Information keys:
-    - r - running
-    - pd - pending
-    - ra47 - netID
-    - TF99_S3_ name of the job
+
+- r : running
+- pd : pending
+- ra47 : netID
+- TF99_S3 : name of the job
     
 ```
 s info -p scavenge
@@ -230,7 +232,7 @@ Mix means job is running on the node, but it is not all the way full and has som
 
 Alloc means completely full
 
-Idle means idle
+Idle means idle.
 Depends on what kind of job you’re running
     Ex. if you want GPU, but servers dont have GPU, it would be idle…
     Maybe its idle because size, other servers empy, etc. i guess?
@@ -241,7 +243,7 @@ Depends on what kind of job you’re running
 pwd 
 ls
 cd scratch
-dd netID
+cd netID
 cp -R  /home/netID/parallel_folding_exmample/ .
 ls, cd parallel
 ```
