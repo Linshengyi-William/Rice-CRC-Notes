@@ -3,4 +3,8 @@ site_url: https://example.com
 nav:
   - Home: index.md
 
+extra_css:
+  - style.css
+
+
 
